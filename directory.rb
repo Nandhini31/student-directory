@@ -1,5 +1,6 @@
 # first, put all students into an array
 
+
 def input_students
 	puts "Please enter the names of the students"
 	puts "To finish, just hit return twice"
@@ -23,10 +24,18 @@ def input_students
 	while !name.empty? do
 
 		students << {name: name, cohort: cohort, hobby: hobby,nationality: nationality}
-		puts "Now we have #{students.count} students"
+		if students.count == 1
+			puts puts "Now we have #{students.count} student"
+		else
+			puts "Now we have #{students.count} students"
+		end
+		puts "Please enter the name of the next student"
 		name = gets.chomp
+		puts "Please enter the cohort"
 		cohort =  gets.chomp
+		puts "Please enter your hobby"
 		hobby = gets.chomp
+		puts "Please enter your nationality"
 		nationality = gets.chomp
 
 	end
@@ -34,14 +43,20 @@ def input_students
 end
 
 def print_header
-	puts "The students of Villians Academy"
-	puts "-----------"
+	puts "The students of Villians Academy".center(lineWidth)
+	puts "-----------".center(lineWidth)
+end
+
+def sort_by_cohort(students)
+	cohort_array = [:january, :february, :march, :april, :may, :june, :july, :august, :september, :october, :november, :december]
+	student_by_cohort = students.sort_by {|student| cohort_array.index(student[:cohort])}
+
 end
 
 def print(students)
 	i = 0
 	while i < students.count
-		puts "#{students[i][:name]} (#{students[i][:cohort]} cohort) #{students[i][:hobby]} #{students[i][:nationality]} ".center(50)
+		puts "#{students[i][:name]} (#{students[i][:cohort]} cohort) #{students[i][:hobby]} #{students[i][:nationality]} ".center(lineWidth)
 		i = i+1
 	end
 end
@@ -57,12 +72,10 @@ end
 def print_conditions(students,initial,size)
 	students.each_with_index do |student,index|
 		if student[:name].length <= size && student[:name][0] == initial.downcase
-			 puts "#{index+1}. #{student[:name]} (#{student[:cohort]} cohort) ".center(50)
+			 puts "#{index+1}. #{student[:name]} (#{student[:cohort]} cohort) ".center(lineWidth)
 		end
 	end
 end
-
-
 
 
 def print_footer(names)
@@ -71,7 +84,8 @@ end
 
 students = input_students
 print_header
-print(students)
+student_cohort = sort_by_cohort(students)
+ print(student_cohort)
 # print_by_letter(students,'N')
-print_conditions(students,'N',12)
+#print_conditions(students,'N',12)
 print_footer(students)
