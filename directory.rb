@@ -3,14 +3,13 @@
 def input_students
 	puts "Please enter the names of the students"
 	puts "To finish, just hit return twice"
-
 	#get the first names
-	puts "Please enter the names of the students"
 	name = gets.chomp
 	#while the name is not empty , repeat this code
 	while !name.empty? do
 		@students << {name: name, cohort: :november}
-			 puts "Now we have #{students.count} student"
+		 puts "Now we have #{@students.count} student"
+		 name = gets.chomp
 	end
 end
 
@@ -24,28 +23,33 @@ end
 def print_menu
 	puts "1. Input the students"
 	puts "2. Show the students"
-	puts "3. Save students list"
+	puts "3. Save students list to students.csv"
+	puts "4. Load the list from students.csv "
 	puts "9.Exit"
 end
 
 
 def show_students
 	print_header
-	print_students_list(students)
-	print_footer(students)
+	print_students_list
+	print_footer
 end
 
-def process_students
+def process(selection)
 	case selection
-		when "1"
-			input_students
-		when "2"
-			show_students
-		when "9"
-			exit
-		else
-			puts "I don't know what you mean try again"
-		end
+	when "1"
+		input_students
+	when "2"
+		show_students
+	when "3"
+		save_students
+	when "4"
+		load_students
+	when "9"
+		exit
+	else
+		puts "I don't know what you mean try again"
+	end
 end
 
 
@@ -55,7 +59,7 @@ def save_students
 	file = File.open("students.csv","w")
 	#iterate over the array of students
 	@students.each do |student|
-		student_each = [student[:name],student[:cohort]]
+		student_data = [student[:name],student[:cohort]]
 		csv_line = student_data.join(",")
 		file.puts csv_line
 	end
@@ -87,3 +91,5 @@ end
 def print_footer(names)
 	puts "Overall, we have #{names.count} great students"
 end
+
+interactive_menu
