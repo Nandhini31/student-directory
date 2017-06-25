@@ -1,10 +1,12 @@
 # first, put all students into an array
 
 def interactive_menu
+	students = []
 	loop do
 	#1.print the menu and ask the user what to do
 		puts "1. Input students"
 		puts "2. Show students"
+		puts "3. Save the list to students.csv"
 		puts "9. Exit"
 		selection = gets.chomp
 		#3.do what user has asked to do
@@ -17,6 +19,8 @@ def interactive_menu
 				print_header
 				print(students)
 				print_footer(students)
+			when "3"
+				save_students
 			when "9"
 			#exit the program
 				exit
@@ -67,6 +71,20 @@ def input_students
 	students
 end
 
+
+def save_students
+	#open the file for writing
+	file = File.open("students.csv","w")
+	#iterate over the array of students
+	@students.each do  |student|
+		student_each = [student[:name],student[:cohort]]
+		csv_line = student_data.join(",")
+		file.puts csv_line
+	end
+	file.close
+end
+
+
 def print_header
 	puts "The students of Villians Academy".center(50)
 	puts "-----------".center(50)
@@ -110,3 +128,7 @@ end
 def print_footer(names)
 	puts "Overall, we have #{names.count} great students"
 end
+
+
+
+interactive_menu
