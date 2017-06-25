@@ -1,5 +1,30 @@
 # first, put all students into an array
 
+def interactive_menu
+	loop do
+	#1.print the menu and ask the user what to do
+		puts "1. Input students"
+		puts "2. Show students"
+		puts "9. Exit"
+		selection = gets.chomp
+		#3.do what user has asked to do
+		case selection
+			when "1"
+			#input the students
+				students = input_students
+			when "2"
+			#print the students
+				print_header
+				print(students)
+				print_footer(students)
+			when "9"
+			#exit the program
+				exit
+			else
+				puts "I dont know what you meant,please try again"
+		end
+	end
+end
 
 def input_students
 	puts "Please enter the names of the students"
@@ -43,8 +68,8 @@ def input_students
 end
 
 def print_header
-	puts "The students of Villians Academy".center(lineWidth)
-	puts "-----------".center(lineWidth)
+	puts "The students of Villians Academy".center(50)
+	puts "-----------".center(50)
 end
 
 def sort_by_cohort(students)
@@ -54,25 +79,29 @@ def sort_by_cohort(students)
 end
 
 def print(students)
-	i = 0
-	while i < students.count
-		puts "#{students[i][:name]} (#{students[i][:cohort]} cohort) #{students[i][:hobby]} #{students[i][:nationality]} ".center(lineWidth)
-		i = i+1
+	if students.count <= 0
+		return
+	else
+		i = 0
+		while i < students.count
+			puts "#{students[i][:name]} (#{students[i][:cohort]} cohort) #{students[i][:hobby]} #{students[i][:nationality]} ".center(50)
+			i = i+1
+		end
 	end
 end
 
-# def print_by_letter(students,initial)
-# 	students.each_with_index do |student,index|
-# 		if student[:name][0] == initial
-# 			puts puts "#{index+1}. #{student[:name]} (#{student[:cohort]} cohort) "
-# 		end
-# 	end
-# end
+def print_by_letter(students,initial)
+	students.each_with_index do |student,index|
+		if student[:name][0] == initial
+			puts puts "#{index+1}. #{student[:name]} (#{student[:cohort]} cohort) "
+		end
+	end
+end
 
 def print_conditions(students,initial,size)
 	students.each_with_index do |student,index|
 		if student[:name].length <= size && student[:name][0] == initial.downcase
-			 puts "#{index+1}. #{student[:name]} (#{student[:cohort]} cohort) ".center(lineWidth)
+			 puts "#{index+1}. #{student[:name]} (#{student[:cohort]} cohort) ".center(50)
 		end
 	end
 end
@@ -81,11 +110,3 @@ end
 def print_footer(names)
 	puts "Overall, we have #{names.count} great students"
 end
-
-students = input_students
-print_header
-student_cohort = sort_by_cohort(students)
- print(student_cohort)
-# print_by_letter(students,'N')
-#print_conditions(students,'N',12)
-print_footer(students)
