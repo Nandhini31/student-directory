@@ -40,11 +40,12 @@ def input_students
 	name = STDIN.gets.chomp
 	#while the name is not empty , repeat this code
 	while !name.empty? do
-		@students << {name: name, cohort: :november}
+		populate_array(name)
 		 puts "Now we have #{@students.count} students"
 		 name = STDIN.gets.chomp
 	end
 end
+
 
 
 def show_students
@@ -88,9 +89,13 @@ def load_students(filename = "students.csv")
 	file = File.open(filename, "r")
 	file.readlines.each do |line|
 	name,cohort = line.chomp.split(',')
-			@students << {name: name,cohort: cohort.to_sym}
+			populate_array(name)
 	end
 	file.close
+end
+
+def populate_array(name)
+	@students << {name: name,cohort: cohort.to_sym}
 end
 
 def try_load_students
