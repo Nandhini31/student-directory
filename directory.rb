@@ -20,12 +20,17 @@ def process(selection)
 	case selection
 	when "1"
 		input_students
+		puts ""
 	when "2"
 		show_students
 	when "3"
 		save_students
+		"Please enter the filename you wish to save along with the extention"
+		user_filename = gets.chomp
 	when "4"
-		load_students
+		load_students_file
+		"Please enter the filename you wish to load along with the extention"
+		user_filename = gets.chomp
 	when "9"
 		exit
 	else
@@ -44,6 +49,7 @@ def input_students
 		 puts "Now we have #{@students.count} students"
 		 name = STDIN.gets.chomp
 	end
+	puts "Successfully completed actions for Option 1"
 end
 
 
@@ -52,6 +58,7 @@ def show_students
 	print_header
 	print_students_list
 	print_footer
+
 end
 
 
@@ -69,12 +76,14 @@ end
 
 def print_footer
 	puts "Overall, we have #{@students.count} great students"
+	puts "Successfully completed actions for Option  2"
 end
 
 
-def save_students
+
+def save_students(user_filename)
 #open the file for writing
-	file = File.open("students.csv","w")
+	file = File.open(user_filename,"w")
 	#iterate over the array of students
 	@students.each do |student|
 		student_data = [student[:name],student[:cohort]]
@@ -82,10 +91,11 @@ def save_students
 		file.puts csv_line
 	end
 	file.close
+	puts "Successfully completed actions for Option 3. Student list have been saved"
 end
 
 
-def load_students(filename = "students.csv")
+def load_students(filename = user_filename)
 	file = File.open(filename, "r")
 	file.readlines.each do |line|
 	name,cohort = line.chomp.split(',')
@@ -98,18 +108,22 @@ def populate_array(name)
 	@students << {name: name,cohort: cohort.to_sym}
 end
 
-def try_load_students
+
+
+def load_students_file
 	filename = ARGV.first #first argument from the command line
-	return if filename.nil?
-	if File.exists?(filename)
+ 	if filename.nil?
+		 	filename = "students.csv"
+	elsif File.exists?(filename)
 		load_students(filename)
 		puts "Loaded #{@students.count} from #{filename}"
 	else
 		puts "Sorry #{filename} not found"
 		exit
 	end
+	puts "Successfully completed actions for Option 4.
 end
 
 
-try_load_students
+load_students_file
 interactive_menu
