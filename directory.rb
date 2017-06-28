@@ -24,13 +24,13 @@ def process(selection)
 	when "2"
 		show_students
 	when "3"
-		save_students
-		"Please enter the filename you wish to save along with the extention"
+		puts "Please enter the filename you wish to save along with the extention"
 		user_filename = gets.chomp
+		save_students(user_filename)
+
 	when "4"
 		load_students_file
-		"Please enter the filename you wish to load along with the extention"
-		user_filename = gets.chomp
+
 	when "9"
 		exit
 	else
@@ -43,9 +43,10 @@ def input_students
 	puts "To finish, just hit return twice"
 	#get the first names
 	name = STDIN.gets.chomp
+	cohort = :november
 	#while the name is not empty , repeat this code
 	while !name.empty? do
-		populate_array(name)
+		populate_array(name,cohort)
 		 puts "Now we have #{@students.count} students"
 		 name = STDIN.gets.chomp
 	end
@@ -99,13 +100,13 @@ def load_students(filename = user_filename)
 	file = File.open(filename, "r")
 	file.readlines.each do |line|
 	name,cohort = line.chomp.split(',')
-			populate_array(name)
+			populate_array(name,cohort)
 	end
 	file.close
 end
 
-def populate_array(name)
-	@students << {name: name,cohort: cohort.to_sym}
+def populate_array(name,cohort)
+	@students << {name: name, cohort: cohort.to_sym}
 end
 
 
@@ -121,7 +122,7 @@ def load_students_file
 		puts "Sorry #{filename} not found"
 		exit
 	end
-	puts "Successfully completed actions for Option 4.
+	puts "Successfully completed actions for Option 4."
 end
 
 
